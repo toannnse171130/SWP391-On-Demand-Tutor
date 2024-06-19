@@ -1,0 +1,54 @@
+.loading-circle svg {
+  width: 26px;
+  transform-origin: center;
+  animation: rotate 2s linear infinite;
+}
+
+.loading-circle circle {
+  fill: none;
+  stroke: #6a44d2;
+  stroke-width: 2;
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  animation: dash 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 200;
+    stroke-dashoffset: -35px;
+  }
+  100% {
+    stroke-dashoffset: -125px;
+  }
+}
+
+.slide-ltr {
+  animation: ld-slide-ltr 2s infinite;
+}
+
+@keyframes ld-slide-ltr {
+  0% {
+    transform: translateX(0);
+    animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
+  }
+  50% {
+    transform: translateX(100%);
+    animation-timing-function: cubic-bezier(0, 0.5, 0.5, 1);
+  }
+  100% {
+    transform: translateX(0);
+    animation-timing-function: cubic-bezier(0.5, 0, 1, 0.5);
+  }
+}
