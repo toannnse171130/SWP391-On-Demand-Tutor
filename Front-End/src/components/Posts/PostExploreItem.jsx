@@ -38,10 +38,14 @@ function PostExploreItem() {
             {new BigNumber(250000).toFormat()}/ Buổi
           </span>
         </h4>
-        <PrimaryBtn className="!w-fit rounded-md">
-          phí: <span className="font-semibold">25% (750,000)</span>{" "}
-          <span className="font-medium text-yellow">Nhận lớp ngay</span>
-        </PrimaryBtn>
+        <div className="flex items-center justify-between mt-2 gap-2">
+          <PrimaryBtn className="!w-fit rounded-md">
+            Xem profile
+          </PrimaryBtn>
+          <PrimaryBtn className="!w-fit rounded-md">
+            Nhắn tin
+          </PrimaryBtn>
+        </div>
       </div>
       <div className="px-4 py-2 mt-3 border-dashed border-[#ddd] border-[2px]">
         học sinh lớp 9, học để luyển thi vào lớp 10 trường Lê Quý Đôn

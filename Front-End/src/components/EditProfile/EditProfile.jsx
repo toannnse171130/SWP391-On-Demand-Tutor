@@ -14,14 +14,70 @@ import {
   requileValidation,
 } from "src/constants/validations";
 import * as Yup from "yup";
-import { LIST_GENDER_VALUE } from "src/constants/constants";
+import {
+  DEFAULT_IMG,
+  LIST_GENDER_VALUE,
+  LIST_ROLE_VALUE,
+} from "src/constants/constants";
 import PrimarySmallTitle from "../common/PrimarySmallTitle";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getProfileDetail, updateProfileDetail } from "src/apis/account-module";
+import { combineStrings, getValueFromKey } from "src/libs";
+import { toast } from "react-toastify";
 
 function EditProfile() {
   const { imageUrlResponse, handleUploadImage, imageUpload } = useUploadImage();
-  const [gender, setGender] = useState();
-  console.log("imageUpload: ", imageUpload);
+  const [gender, setGender] = useState(undefined);
   const [dataProfileDetail, setDataProfileDetail] = useState(null);
+  const queryClient = useQueryClient();
+
+  useQuery({
+    queryKey: ["profileDetail"],
+    queryFn: async () => {
+      const response = await getProfileDetail();
+      setDataProfileDetail(response?.data);
+      return response?.data;
+    },
+  });
+
+  const changeProfileMutation = useMutation(
+    async (newData) => {
+      return await updateProfileDetail(newData);
+    },
+    {
+      onSuccess: (data) => {
+        if (data?.status >= 200 && data?.status < 300) {
+          toast.success("Update profile successfully");
+          queryClient.invalidateQueries(["profileDetail"]);
+        } else {
+          toast.error(
+            combineStrings(data?.response?.data?.errors) ||
+              combineStrings(data?.response?.data?.message) ||
+              combineStrings(data?.response?.data) ||
+              combineStrings(data?.message) ||
+              "Oops! Something went wrong..."
+          );
+        }
+      },
+      onError: (err) => {
+        toast.error(
+          // @ts-ignore
+          err?.response?.data?.message || err?.message || "Update error"
+        );
+      },
+    }
+  );
+
+  const handleSaveNewDetail = () => {
+    const submitObj = {
+      ...dataProfileDetail,
+    };
+    if (gender) {
+      submitObj["gender"] = gender?.value;
+    }
+    // @ts-ignore
+    changeProfileMutation.mutate(submitObj);
+  };
 
   return (
     <div>
@@ -32,31 +88,40 @@ function EditProfile() {
             <div className="flex flex-col items-center justify-between">
               <div>
                 <div className="mb-5 text-xl font-semibold text-center">
-                  Avatar
+                  Ảnh đại diện
                 </div>
-                <div className="flex items-center justify-center border rounded border-primary w-[200px] h-[200px]">
+                {/* <div className="flex items-center justify-center border rounded border-primary w-[200px] h-[200px]">
                   <UploadImage
                     imageUrlResponse={
                       imageUpload ? imageUpload : dataProfileDetail?.userAvatar
                     }
                     onChange={(e) => handleUploadImage(e)}
                   />
+                </div> */}
+                <div className="flex items-center justify-center rounded w-[200px] h-[200px]">
+                  <img
+                    className="object-cover w-full h-full rounded"
+                    src={dataProfileDetail?.userAvatar || DEFAULT_IMG.LOGO}
+                    alt=""
+                  />
                 </div>
               </div>
             </div>
-            <div className="mt-5">Role: Tutor</div>
-            <div className="mt-3">
-              Email: {dataProfileDetail?.account?.email}
+            <div className="mt-5">
+              Chức vụ:{" "}
+              {getValueFromKey(dataProfileDetail?.roleId, LIST_ROLE_VALUE)
+                ?.name || "---"}
             </div>
+            <div className="mt-3">Email: {dataProfileDetail?.email}</div>
           </div>
           <div className="flex flex-col gap-4">
             <PrimaryInput
               title={
                 <p>
-                  Full name <span className="text-red-500">*</span>
+                  Họ và tên <span className="text-red-500">*</span>
                 </p>
               }
-              placeholder="Enter first name"
+              placeholder="Nhập họ và tên"
               value={dataProfileDetail?.fullName || ""}
               onChange={(e) => {
                 setDataProfileDetail({
@@ -67,11 +132,11 @@ function EditProfile() {
             />
             <div className="grid items-center grid-cols-2 gap-4">
               <FilterDropDown
-                title="Gender"
+                title="Giới tính"
                 listDropdown={LIST_GENDER_VALUE}
                 showing={gender}
                 setShowing={setGender}
-                textDefault={dataProfileDetail?.gender}
+                textDefault={dataProfileDetail?.gender ? "Nam" : "Nữ"}
               />
               <div>
                 <PrimarySmallTitle className="mb-2">
@@ -105,18 +170,7 @@ function EditProfile() {
               </div>
             </div>
             <PrimaryInput
-              title="Identify number"
-              placeholder="Enter identify number"
-              value={dataProfileDetail?.cmnd || ""}
-              onChange={(e) => {
-                setDataProfileDetail({
-                  ...dataProfileDetail,
-                  cmnd: e.target.value,
-                });
-              }}
-            />
-            <PrimaryInput
-              title="Phone number"
+              title="Số điện thoại"
               placeholder="Enter phone number"
               value={dataProfileDetail?.phone || ""}
               onChange={(e) => {
@@ -127,9 +181,9 @@ function EditProfile() {
               }}
             />
             <PrimaryInput
-              title="Address detail"
+              title="Địa chỉ"
               rows={4}
-              placeholder="Enter address"
+              placeholder="Nhập địa chỉ"
               value={
                 dataProfileDetail?.address ? dataProfileDetail?.address : ""
               }
@@ -193,53 +247,16 @@ function EditProfile() {
                   View CV Now
                 </a>
               </div>
-              <PrimarySmallTitle>Identify Card Front</PrimarySmallTitle>
-              <div>
-                <input
-                  type="file"
-                  onChange={(e) => {
-                    setDataProfileDetail({
-                      ...dataProfileDetail,
-                      FrontCmnd: e.target.files[0],
-                    });
-                  }}
-                />
-                <a
-                  className="underline hover:text-primary smooth-transform"
-                  href={dataProfileDetail?.tutor?.frontCmnd}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  View Front
-                </a>
-              </div>
-              <PrimarySmallTitle>Identify Card Back</PrimarySmallTitle>
-              <div>
-                <input
-                  type="file"
-                  onChange={(e) => {
-                    setDataProfileDetail({
-                      ...dataProfileDetail,
-                      BackCmnd: e.target.files[0],
-                    });
-                  }}
-                />
-                <a
-                  className="underline hover:text-primary smooth-transform"
-                  href={dataProfileDetail?.tutor?.backCmnd}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  View Back
-                </a>
-              </div>
             </div>
           </div>
         </div>
 
         <div className="flex justify-end">
-          <PrimaryBtn className="md:max-w-[222px] mt-6">
-            <Link to={"/"}>Lưu</Link>
+          <PrimaryBtn
+            onClick={handleSaveNewDetail}
+            className="md:max-w-[222px] mt-6"
+          >
+            Lưu
           </PrimaryBtn>
         </div>
       </div>
@@ -321,14 +338,14 @@ function ChangePasswordSection({ staffAccountObject }) {
       onSubmit={formPassword.handleSubmit}
       className="mt-5 bg-white block-border"
     >
-      <Title>Change Password</Title>
+      <Title>Đổi mật khẩu</Title>
       <div className="flex flex-col gap-3 mt-5">
         <PrimaryInput
           id="OldPassword"
           type="password"
           title={
             <div>
-              Old Password <span className="text-dangerous">*</span>
+              Mật khẩu cũ <span className="text-dangerous">*</span>
             </div>
           }
           classNameInput={`${
@@ -343,14 +360,14 @@ function ChangePasswordSection({ staffAccountObject }) {
             formPassword.touched.OldPassword && formPassword.errors.OldPassword
           }
           messageError={formPassword.errors.OldPassword}
-          placeholder="Enter old password"
+          placeholder="Nhập mật khẩu cũ"
         />
         <PrimaryInput
           id="NewPassword"
           type="password"
           title={
             <div>
-              New Password <span className="text-dangerous">*</span>
+              Mật khẩu mới <span className="text-dangerous">*</span>
             </div>
           }
           classNameInput={`${
@@ -365,12 +382,12 @@ function ChangePasswordSection({ staffAccountObject }) {
             formPassword.touched.NewPassword && formPassword.errors.NewPassword
           }
           messageError={formPassword.errors.NewPassword}
-          placeholder="Enter new password"
+          placeholder="Nhập mật khẩu mới"
         />
         <PrimaryInput
           title={
             <div>
-              Confirm New Password <span className="text-dangerous">*</span>
+              Nhập lại mật khẩu mới <span className="text-dangerous">*</span>
             </div>
           }
           id="RePassword"
@@ -380,7 +397,7 @@ function ChangePasswordSection({ staffAccountObject }) {
               ? "border border-red-500"
               : ""
           }`}
-          placeholder="Confirm your new password"
+          placeholder="******"
           onChange={formPassword.handleChange}
           onBlur={formPassword.handleBlur}
           value={formPassword.values.RePassword}
