@@ -8,6 +8,8 @@ import { useNavigate } from "react-router-dom";
 import { PRIVATE_ROUTER } from "src/constants/RouterConstant";
 import { useQuery } from "@tanstack/react-query";
 import { getProfileDetail } from "src/apis/account-module";
+import { getValueFromKey } from "src/libs";
+import { DEFAULT_IMG, LIST_ROLE_VALUE } from "src/constants/constants";
 
 function ProfilePageDetail() {
   const [dataProfileDetail, setDataProfileDetail] = useState(undefined);
@@ -21,7 +23,6 @@ function ProfilePageDetail() {
       return response?.data;
     },
   });
-  console.log("dataProfileDetail: ", dataProfileDetail);
 
   return (
     <div className="bg-[#ffffff] block-border">
@@ -31,29 +32,29 @@ function ProfilePageDetail() {
           <div className="flex flex-col items-center justify-between">
             <div>
               <div className="mb-5 text-xl font-semibold text-center">
-                Avatar
+                Ảnh đại diện
               </div>
               <div className="flex items-center justify-center rounded w-[200px] h-[200px]">
                 <img
                   className="object-cover w-full h-full rounded"
-                  src={
-                    dataProfileDetail?.userAvatar || "/images/logo-default.png"
-                  }
+                  src={dataProfileDetail?.userAvatar || DEFAULT_IMG.LOGO}
                   alt=""
                 />
               </div>
             </div>
           </div>
           <div className="mt-5">
-            Role: {dataProfileDetail?.account?.roleName}
+            Chức vụ:{" "}
+            {getValueFromKey(dataProfileDetail?.roleId, LIST_ROLE_VALUE)
+              ?.name || "---"}
           </div>
-          <div className="mt-3">Email: {dataProfileDetail?.account?.email}</div>
+          <div className="mt-3">Email: {dataProfileDetail?.email}</div>
         </div>
         <div className="flex flex-col gap-4">
           <PrimaryInput
             title={
               <p>
-                Full name <span className="text-red-500">*</span>
+                Họ và tên <span className="text-red-500">*</span>
               </p>
             }
             placeholder="Enter first name"
@@ -64,12 +65,12 @@ function ProfilePageDetail() {
           />
           <div className="grid items-center grid-cols-2 gap-4">
             <PrimaryInput
-              title="Gender"
-              value={dataProfileDetail?.gender ? dataProfileDetail?.gender : ""}
+              title="Giới tính"
+              value={dataProfileDetail?.gender ? "Nam" : "Nữ"}
               readOnly
             />
             <PrimaryInput
-              title="Birth date"
+              title="Ngày sinh"
               value={
                 dataProfileDetail?.dob
                   ? format(new Date(dataProfileDetail?.dob), "dd-MM-yyyy")
@@ -78,38 +79,17 @@ function ProfilePageDetail() {
               readOnly
             />
           </div>
-
           <PrimaryInput
-            title="Identify number"
-            placeholder="Enter identify number"
-            value={
-              dataProfileDetail?.tutor?.cmnd
-                ? dataProfileDetail?.tutor?.cmnd
-                : ""
-            }
-            readOnly
-          />
-          <PrimaryInput
-            title="Phone number"
+            title="Số điện thoại"
             placeholder="Enter phone number"
             value={dataProfileDetail?.phone ? dataProfileDetail?.phone : ""}
             readOnly
           />
           <PrimaryInput
-            title="Address"
+            title="Địa chỉ"
             rows={4}
             placeholder="Enter address"
             value={dataProfileDetail?.address ? dataProfileDetail?.address : ""}
-            readOnly
-          />
-
-          <PrimaryInput
-            title={<p>School</p>}
-            value={
-              dataProfileDetail?.tutor?.school
-                ? dataProfileDetail?.tutor?.school
-                : ""
-            }
             readOnly
           />
           <div className="grid items-center grid-cols-2 gap-4">

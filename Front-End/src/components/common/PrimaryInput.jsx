@@ -14,6 +14,9 @@ function PrimaryInput({
   accessoriesRight = null,
   value = undefined,
   disabled = false,
+  isVisible = true,
+  isError = undefined,
+  messageError = null,
   ...props
 }) {
   return (
@@ -48,6 +51,9 @@ function PrimaryInput({
           </div>
         )}
       </div>
+      {isError && (
+        <div className="mt-2 text-sm text-red-500">{messageError}</div>
+      )}
     </div>
   );
 }

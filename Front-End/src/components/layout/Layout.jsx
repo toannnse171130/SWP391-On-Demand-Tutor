@@ -15,7 +15,7 @@ function Layout(props) {
           <div className="flex justify-start">
             <Link to="/" className="py-[10px]">
               <img
-                src="https://www.daykemtainha.vn/public/templates/public/giasu/images/logo-wide-giasu.png"
+                src="img/logo.jpg"
                 alt="logo"
                 className="h-[50px] w-full object-contain "
               />
@@ -35,9 +35,9 @@ function Layout(props) {
             <NavLinkButton to={PRIVATE_ROUTER.CREATE_POST}>
               Tạo bài đăng
             </NavLinkButton>
-            <NavLinkButton to="/">Tìm gia sư</NavLinkButton>
-            <NavLinkButton to="/">Đăng ký làm gia sư</NavLinkButton>
-            <NavLinkButton to="/">Bài viết</NavLinkButton>
+            <NavLinkButton to={PRIVATE_ROUTER.MANAGE_POST}>
+              Quản lí bài viết
+            </NavLinkButton>
             <NavLinkButton to="/">Liên hệ</NavLinkButton>
           </div>
         </div>
