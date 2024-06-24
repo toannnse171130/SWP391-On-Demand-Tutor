@@ -1,9 +1,9 @@
 ﻿using ODT_System.Models;
 using ODT_System.Repository.Interface;
-
+using Microsoft.EntityFrameworkCore;
 namespace ODT_System.Repository
 {
-    public class UserRepository : BaseRepository, IUserRepository
+    public class UserRepository : BaseRepository<User>, IUserRepository
     {
         private readonly OdtsystemContext _context;
 
@@ -32,6 +32,11 @@ namespace ODT_System.Repository
         public User? FindByEmail(string email)
         {
             return _context.Users.FirstOrDefault(u => u.Email == email);
+        }
+
+        public User? FindByEmailIncludeRole(string email)
+        {
+            return _context.Users.Include(u => u.Role).FirstOrDefault(u => u.Email == email);
         }
 
         public User? FindById(int userId)
