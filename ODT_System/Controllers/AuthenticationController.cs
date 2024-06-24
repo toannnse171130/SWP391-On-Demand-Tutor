@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ODT_System.DTO;
-using ODT_System.Models;
 using ODT_System.Services.Interface;
 
 namespace ODT_System.Controllers
@@ -28,15 +28,18 @@ namespace ODT_System.Controllers
             }
 
             // Login user
-            bool isValidLogin = _authenticationService.Login(userLoginDTO, out string token);
+            bool isValidLogin = _authenticationService.Login(userLoginDTO, out Dictionary<string, object> data, out string message);
 
             // Return error if login fail
             if (!isValidLogin)
             {
-                return Unauthorized(new { message = "Sai email hoặc mật khẩu" });
+                return Unauthorized(message);
             }
 
-            return Ok(token);
+            // Convert data to json
+            var dataResponse = JsonConvert.SerializeObject(data);
+
+            return Ok(dataResponse);
         }
 
         [HttpPost("register")]
