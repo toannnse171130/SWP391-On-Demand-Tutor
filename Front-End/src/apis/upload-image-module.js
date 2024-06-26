@@ -1,4 +1,4 @@
-import { uploadImageUrl } from "src/constants/APIConfig";
+import { uploadImageUrl } from "src/constants/APIUrls";
 import { postAPI } from "src/libs/api";
 
 export const uploadImage = (newImage) => {
