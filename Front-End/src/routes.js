@@ -1,7 +1,6 @@
 import React from "react";
 import CollectionPage from "./pages/CollectionPage";
 import NewHomePage from "./pages/NewHomePage";
-import NotFound from "./pages/NotFound";
 import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -10,6 +9,10 @@ import ListPostsPage from "./pages/ListPostsPage";
 import { PRIVATE_ROUTER, PUBLIC_ROUTER } from "./constants/RouterConstant";
 import EditProfilePage from "./pages/EditProfilePage";
 import CreatePostPage from "./pages/CreatePostPage";
+import TutorManagePostPage from "./pages/TutorManagePostPage";
+import NotFound from "./pages/NotFound";
+import TutorViewPostDetail from "./pages/TutorViewPostDetail";
+import TutorEditPostPage from "./pages/TutorEditPostPage";
 
 //list your routes here
 export const routes = [
@@ -21,6 +24,9 @@ export const routes = [
 
   { path: PUBLIC_ROUTER.POST, element: <ListPostsPage /> },
   { path: PRIVATE_ROUTER.CREATE_POST, element: <CreatePostPage /> },
+  { path: PRIVATE_ROUTER.MANAGE_POST, element: <TutorManagePostPage /> },
+  { path: PRIVATE_ROUTER.EDIT_POST, element: <TutorEditPostPage /> },
+  { path: PRIVATE_ROUTER.POST_DETAIL, element: <TutorViewPostDetail /> },
 
   { path: PRIVATE_ROUTER.PROFILE, element: <ProfilePage /> },
   { path: PRIVATE_ROUTER.EDIT_PROFILE, element: <EditProfilePage /> },
