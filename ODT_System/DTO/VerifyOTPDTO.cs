@@ -1,12 +1,21 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ODT_System.Models;
 
 namespace ODT_System.DTO
 {
-    public class VerifyOTPDTO
+    public class ViewProfileDTO
     {
-        [Required(ErrorMessage = "Vui lòng nhập mã OTP")]
-        public string OTPEnter { get; set; } = null!;
-        [Required(ErrorMessage = "Vui lòng nhập mã OTP đã mã hóa")]
-        public string OTPHash { get; set; } = null!;
+        public string Email { get; set; } = null!;
+
+        public string FullName { get; set; } = null!;
+
+        public bool Gender { get; set; }
+
+        public DateOnly Dob { get; set; }
+
+        public string Phone { get; set; } = null!;
+
+        public int RoleId { get; set; }
+
+        public string? Desciption { get; set; }
     }
 }
