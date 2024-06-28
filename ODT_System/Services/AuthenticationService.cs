@@ -24,30 +24,50 @@ namespace ODT_System.Services
             _bcryptHandler = bcryptHandler;
         }
 
-        public bool Login(UserLoginDTO userLoginDTO, out string token)
+        public bool Login(UserLoginDTO userLoginDTO, out Dictionary<string, object> data, out string message)
         {
             //Map UserLoginDTO to User
             User userLogin = _mapper.Map<User>(userLoginDTO);
 
             //Check user is exist or not
-            var userStoreDb = _userRepository.FindByEmail(userLogin.Email);
+            var userStoreDb = _userRepository.FindByEmailIncludeRole(userLogin.Email);
+
             if (userStoreDb == null)
             {
-                token = string.Empty;
+                message = "Sai mật khẩu hoặc tài khoản";
+                data = null;
+                return false;
+            }
+
+            if (userStoreDb.IsActive == false)
+            {
+                message = "Tài khoản đã bị vô hiệu hóa";
+                data = null;
                 return false;
             }
 
             // Validate password
             if (!_bcryptHandler.VerifyPassword(userLogin.Password, userStoreDb.Password))
             {
-                token = string.Empty;
+                message = "Sai mật khẩu hoặc tài khoản";
+                data = null;
                 return false;
             }
 
             //Generate token
             var tokenGenerate = _jwtHandler.GenerateToken(userStoreDb).ToString();
+            string token = tokenGenerate == null ? "Error while generate token" : tokenGenerate;
 
-            token = tokenGenerate == null ? "Error while generate token" : tokenGenerate;
+            message = "Đăng nhập thành công";
+            data = new Dictionary<string, object>
+            {
+                { "token", token },
+                { "userId", userStoreDb.Id },
+                { "fullName", userStoreDb.FullName},
+                { "roleId", userStoreDb.Role.Id},
+                {"expireTime", DateTime.Now.AddDays(30).ToString() }
+            };
+
             return true;
         }
 
@@ -66,6 +86,7 @@ namespace ODT_System.Services
 
             // Hash password
             newUser.Password = _bcryptHandler.HashPassword(newUser.Password);
+            newUser.IsActive = true;
 
             // Add new user to database
             _userRepository.Create(newUser);
