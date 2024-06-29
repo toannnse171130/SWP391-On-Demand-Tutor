@@ -146,16 +146,7 @@ function HomePageContent() {
             <div className="mt-6 text-6xl font-semibold">
               HÃY <span className="text-primary">TÌM GIA SƯ GIỎI</span> NGAY!
             </div>
-            <div className="flex items-stretch justify-center w-full mt-6">
-              <PrimaryInput
-                placeholder="Hãy nhập một môn học!"
-                classNameInput="rounded-l-[24px] rounded-r-[0px] h-[46px]"
-                className="w-[260px]"
-              />
-              <PrimaryBtn className="!w-[160px] h-[46px] rounded-l-[0px] rounded-r-[24px]">
-                Tìm gia sư ngay
-              </PrimaryBtn>
-            </div>
+
             <div className="mt-4 text-lg text-yellow">
               Hoặc gọi ngay:{" "}
               <span className="text-2xl text-white">0365062443</span> thầy Duy
