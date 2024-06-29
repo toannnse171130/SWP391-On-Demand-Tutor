@@ -158,7 +158,8 @@ function HomePageContent() {
             </div>
             <div className="mt-4 text-lg text-yellow">
               Hoặc gọi ngay:{" "}
-              <span className="text-2xl text-white">0111111111</span> cô Mượt
+              <span className="text-2xl text-white">0365062443</span> thầy Duy
+              Tay To
             </div>
             <div className="mt-6">
               <PrimaryBtn className="px-8 bg-[#f0ad4e] border-[#f0ad4e] hover:bg-[#a98149]">
@@ -231,26 +232,6 @@ function HomePageContent() {
         </PageContentWrapper>
       </div>
       {/* Page 3 */}
-      <PageContentWrapper>
-        <div className="flex flex-col gap-3">
-          <div className="text-lg font-normal">
-            Tìm gia sư theo các{" "}
-            <span className="font-semibold text-primary">môn phổ biến</span>
-          </div>
-          <div className="w-14 h-[3px] bg-primary"></div>
-        </div>
-        <div className="flex flex-wrap mt-5 gap-x-5 gap-y-3">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => (
-            <Link
-              key={item}
-              to="/"
-              className="p-2 text-xl font-light border border-gray text-gray hover:bg-[#333333] smooth-transform hover:text-white"
-            >
-              Toán lớp 3
-            </Link>
-          ))}
-        </div>
-      </PageContentWrapper>
 
       {/* separate page 3 and 4 */}
       <div
@@ -281,27 +262,6 @@ function HomePageContent() {
       </div>
 
       {/* Page 4  */}
-      <PageContentWrapper>
-        <div className="text-2xl">
-          <FontAwesomeIcon icon={faQuestionCircle} className="mr-3" />
-          CÁC CÂU HỎI <span className="text-primary">THƯỜNG GẶP</span> CỦA GIA
-          SƯ
-        </div>
-        <div className="flex flex-col gap-5 mt-6">
-          <div className="flex items-center gap-3">
-            <PrimaryBtn className="!w-8 !h-8 !rounded-md">
-              <FontAwesomeIcon icon={faPlus} />
-            </PrimaryBtn>
-            <div>Quy trình nhận lớp thế nào</div>
-          </div>
-          <div className="flex items-center gap-3">
-            <PrimaryBtn className="!w-8 !h-8 !rounded-md">
-              <FontAwesomeIcon icon={faPlus} />
-            </PrimaryBtn>
-            <div>Thông tin hợp đồng</div>
-          </div>
-        </div>
-      </PageContentWrapper>
 
       {/* Page 5 */}
       <div
