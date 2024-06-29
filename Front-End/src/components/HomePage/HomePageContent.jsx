@@ -153,9 +153,11 @@ function HomePageContent() {
               Tay To
             </div>
             <div className="mt-6">
-              <PrimaryBtn className="px-8 bg-[#f0ad4e] border-[#f0ad4e] hover:bg-[#a98149]">
-                Tham gia vào đội ngũ Gia Sư !!!
-              </PrimaryBtn>
+              <LinkCustom to="/dang-ky">
+                <PrimaryBtn className="px-8 bg-[#f0ad4e] border-[#f0ad4e] hover:bg-[#a98149]">
+                  Tham gia vào đội ngũ Gia Sư !!!
+                </PrimaryBtn>
+              </LinkCustom>
             </div>
           </div>
         </PageContentWrapper>
@@ -265,35 +267,7 @@ function HomePageContent() {
           width: "100%",
           position: "relative",
         }}
-      >
-        <div className="overlay-2"></div>
-        <PageContentWrapper className="flex flex-col items-center justify-center text-center content">
-          <div className="text-3xl font-semibold text-white">NHẬN XÉT CỦA</div>
-          <div className="mt-6 text-3xl font-semibold text-primary">
-            PHỤ HUYNH <span className="text-white">&</span> GIÁO VIÊN
-          </div>
-          <div className="mt-6">
-            <div className="flex flex-col items-center justify-center gap-4">
-              <img
-                src="https://www.daykemtainha.vn/public/templates/public/giasu/images/testimonials/5.webp"
-                alt="avatar"
-                className="w-[100px] h-[100px] rounded-full object-cover"
-              />
-              <FontAwesomeIcon icon={faQuoteRight} color="#43B14B" size="2x" />
-              <div className="text-base font-normal text-white max-w-[940px]">
-                Con tôi học lớp 5 là năm cuối cấp 1, tôi rất lo lắng về việc học
-                cho con, công việc của tôi rất nhiều không có nhiều thời gian để
-                kèm cặp con, tôi biết con tố chất thông minh nhưng hơi lười nên
-                tôi rất cần một cô gia sư tận tâm thay tôi kèm cho con mỗi ngày,
-                được người quen giới thiệu tôi đã được Trung tâm gia sư Tài Năng
-                Trẻ sắp xếp cô gia sư Thủy Lợi sv đại học Y Dược, Nhờ sự nhiệt
-                tình của gia sư cuối năm con tôi đạt thành tích xuất sắc, chân
-                thành cảm ơn cô Lợi và trung tâm.
-              </div>
-            </div>
-          </div>
-        </PageContentWrapper>
-      </div>
+      ></div>
     </div>
   );
 }
