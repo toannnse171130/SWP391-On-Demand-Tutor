@@ -4,6 +4,8 @@ import HeartIcon from "../icons/HeartIcon";
 import StarIcon from "../icons/StarIcon";
 import PrimaryBtn from "../common/PrimaryBtn";
 import PrimaryInput from "../common/PrimaryInput";
+import LinkCustom from "../common/LinkCustom";
+import { PRIVATE_ROUTER, PUBLIC_ROUTER } from "src/constants/RouterConstant";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faThumbsUp,
