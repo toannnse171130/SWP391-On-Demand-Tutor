@@ -40,9 +40,9 @@ function Footer(props) {
         <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
           © 2024{" "}
           <a href="https://www.daykemtainha.vn/" className="hover:underline">
-            Daynhauhoc
+            SWP391 Project On Demend Tutor
           </a>
-          . All Rights Reserved.
+          . Duy Tay To Design.
         </span>
       </div>
     </footer>
