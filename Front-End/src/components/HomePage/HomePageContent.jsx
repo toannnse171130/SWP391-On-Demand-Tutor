@@ -4,6 +4,8 @@ import HeartIcon from "../icons/HeartIcon";
 import StarIcon from "../icons/StarIcon";
 import PrimaryBtn from "../common/PrimaryBtn";
 import PrimaryInput from "../common/PrimaryInput";
+import LinkCustom from "../common/LinkCustom";
+import { PRIVATE_ROUTER, PUBLIC_ROUTER } from "src/constants/RouterConstant";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faThumbsUp,
@@ -144,24 +146,18 @@ function HomePageContent() {
             <div className="mt-6 text-6xl font-semibold">
               HÃY <span className="text-primary">TÌM GIA SƯ GIỎI</span> NGAY!
             </div>
-            <div className="flex items-stretch justify-center w-full mt-6">
-              <PrimaryInput
-                placeholder="Hãy nhập một môn học!"
-                classNameInput="rounded-l-[24px] rounded-r-[0px] h-[46px]"
-                className="w-[260px]"
-              />
-              <PrimaryBtn className="!w-[160px] h-[46px] rounded-l-[0px] rounded-r-[24px]">
-                Tìm gia sư ngay
-              </PrimaryBtn>
-            </div>
+
             <div className="mt-4 text-lg text-yellow">
               Hoặc gọi ngay:{" "}
-              <span className="text-2xl text-white">0111111111</span> cô Mượt
+              <span className="text-2xl text-white">0365062443</span> thầy Duy
+              Tay To
             </div>
             <div className="mt-6">
-              <PrimaryBtn className="px-8 bg-[#f0ad4e] border-[#f0ad4e] hover:bg-[#a98149]">
-                Tham gia vào đội ngũ Gia Sư !!!
-              </PrimaryBtn>
+              <LinkCustom to="/dang-ky">
+                <PrimaryBtn className="px-8 bg-[#f0ad4e] border-[#f0ad4e] hover:bg-[#a98149]">
+                  Tham gia vào đội ngũ Gia Sư !!!
+                </PrimaryBtn>
+              </LinkCustom>
             </div>
           </div>
         </PageContentWrapper>
@@ -229,26 +225,6 @@ function HomePageContent() {
         </PageContentWrapper>
       </div>
       {/* Page 3 */}
-      <PageContentWrapper>
-        <div className="flex flex-col gap-3">
-          <div className="text-lg font-normal">
-            Tìm gia sư theo các{" "}
-            <span className="font-semibold text-primary">môn phổ biến</span>
-          </div>
-          <div className="w-14 h-[3px] bg-primary"></div>
-        </div>
-        <div className="flex flex-wrap mt-5 gap-x-5 gap-y-3">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => (
-            <Link
-              key={item}
-              to="/"
-              className="p-2 text-xl font-light border border-gray text-gray hover:bg-[#333333] smooth-transform hover:text-white"
-            >
-              Toán lớp 3
-            </Link>
-          ))}
-        </div>
-      </PageContentWrapper>
 
       {/* separate page 3 and 4 */}
       <div
@@ -279,27 +255,6 @@ function HomePageContent() {
       </div>
 
       {/* Page 4  */}
-      <PageContentWrapper>
-        <div className="text-2xl">
-          <FontAwesomeIcon icon={faQuestionCircle} className="mr-3" />
-          CÁC CÂU HỎI <span className="text-primary">THƯỜNG GẶP</span> CỦA GIA
-          SƯ
-        </div>
-        <div className="flex flex-col gap-5 mt-6">
-          <div className="flex items-center gap-3">
-            <PrimaryBtn className="!w-8 !h-8 !rounded-md">
-              <FontAwesomeIcon icon={faPlus} />
-            </PrimaryBtn>
-            <div>Quy trình nhận lớp thế nào</div>
-          </div>
-          <div className="flex items-center gap-3">
-            <PrimaryBtn className="!w-8 !h-8 !rounded-md">
-              <FontAwesomeIcon icon={faPlus} />
-            </PrimaryBtn>
-            <div>Thông tin hợp đồng</div>
-          </div>
-        </div>
-      </PageContentWrapper>
 
       {/* Page 5 */}
       <div
@@ -312,35 +267,7 @@ function HomePageContent() {
           width: "100%",
           position: "relative",
         }}
-      >
-        <div className="overlay-2"></div>
-        <PageContentWrapper className="flex flex-col items-center justify-center text-center content">
-          <div className="text-3xl font-semibold text-white">NHẬN XÉT CỦA</div>
-          <div className="mt-6 text-3xl font-semibold text-primary">
-            PHỤ HUYNH <span className="text-white">&</span> GIÁO VIÊN
-          </div>
-          <div className="mt-6">
-            <div className="flex flex-col items-center justify-center gap-4">
-              <img
-                src="https://www.daykemtainha.vn/public/templates/public/giasu/images/testimonials/5.webp"
-                alt="avatar"
-                className="w-[100px] h-[100px] rounded-full object-cover"
-              />
-              <FontAwesomeIcon icon={faQuoteRight} color="#43B14B" size="2x" />
-              <div className="text-base font-normal text-white max-w-[940px]">
-                Con tôi học lớp 5 là năm cuối cấp 1, tôi rất lo lắng về việc học
-                cho con, công việc của tôi rất nhiều không có nhiều thời gian để
-                kèm cặp con, tôi biết con tố chất thông minh nhưng hơi lười nên
-                tôi rất cần một cô gia sư tận tâm thay tôi kèm cho con mỗi ngày,
-                được người quen giới thiệu tôi đã được Trung tâm gia sư Tài Năng
-                Trẻ sắp xếp cô gia sư Thủy Lợi sv đại học Y Dược, Nhờ sự nhiệt
-                tình của gia sư cuối năm con tôi đạt thành tích xuất sắc, chân
-                thành cảm ơn cô Lợi và trung tâm.
-              </div>
-            </div>
-          </div>
-        </PageContentWrapper>
-      </div>
+      ></div>
     </div>
   );
 }

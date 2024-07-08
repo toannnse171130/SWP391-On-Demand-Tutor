@@ -26,7 +26,7 @@ function Layout(props) {
               Trang chủ
             </NavLinkButton>
             <NavLinkButton className="!gap-2" to={PUBLIC_ROUTER.POST}>
-              <div>Bài viết mới</div>
+              <div>Lớp Mới</div>
               <div className="px-1 py-[1px] text-xs text-white bg-red-500 rounded-md">
                 Hot
               </div>
@@ -36,7 +36,7 @@ function Layout(props) {
               Tạo bài đăng
             </NavLinkButton>
             <NavLinkButton to={PRIVATE_ROUTER.MANAGE_POST}>
-              Quản lí bài viết
+              Quản lí bài đăng
             </NavLinkButton>
             <NavLinkButton to="/">Liên hệ</NavLinkButton>
           </div>
