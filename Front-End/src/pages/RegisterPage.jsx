@@ -25,7 +25,6 @@ function RegisterPage(props) {
     },
     {
       onSuccess: (data) => {
-        console.log("Data: ", data);
         if (data?.status >= 200 && data?.status < 300) {
           toast.success("Register successfully");
           toast.dismiss(TOAST_CREATE_ACCOUNT);
@@ -55,7 +54,7 @@ function RegisterPage(props) {
   );
 
   const handleRegisterNewAccount = () => {
-    toast.loading("Sending request...", {
+    toast.loading("Vui lòng chờ...", {
       toastId: TOAST_CREATE_ACCOUNT,
     });
     const queryObj = {

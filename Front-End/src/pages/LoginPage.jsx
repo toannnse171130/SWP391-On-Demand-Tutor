@@ -23,15 +23,24 @@ function LoginPage(props) {
     },
     {
       onSuccess: (data) => {
-        console.log("Data: ", data);
         if (data?.status >= 200 && data?.status < 300) {
           toast.success("Đăng nhập thành công");
           toast.dismiss(TOAST_CREATE_ACCOUNT);
-          localStorage.setItem("fullName", "da log in");
+          localStorage.setItem("fullName", data?.data?.fullName);
+          localStorage.setItem("roleId", data?.data?.roleId);
+          localStorage.setItem("userId", data?.data?.userId);
           checkUserId();
-          window.document.cookie = cookie.serialize("accessToken", data?.data, {
-            path: "/",
-          });
+          const expireDate = new Date(data?.data?.expireTime);
+          const maxAge = Math.floor((expireDate.getTime() - Date.now()) / 1000);
+
+          window.document.cookie = cookie.serialize(
+            "accessToken",
+            data?.data?.token,
+            {
+              maxAge: maxAge,
+              path: "/",
+            }
+          );
 
           navigate(PUBLIC_ROUTER.HOME);
         } else {
@@ -59,10 +68,9 @@ function LoginPage(props) {
   );
 
   const handleLoginAccount = () => {
-    toast.loading("Sending request...", {
+    toast.loading("Vui lòng chờ...", {
       toastId: TOAST_CREATE_ACCOUNT,
     });
-    console.log("Send log: ", loginAccount);
     loginAccountMutation.mutate(loginAccount);
   };
 
