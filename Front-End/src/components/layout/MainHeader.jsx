@@ -19,13 +19,14 @@ function MainHeader() {
     <div className="bg-primary">
       <div className="flex justify-between text-white md:max-w-[1168px] 2xl:max-w-[1468px] mx-auto py-2">
         <div className="flex items-center gap-8">
-          <LinkCustom to="tel:0365062443" isLink={false}>
+          <LinkCustom to="tel:0912222222" isLink={false}>
             <FontAwesomeIcon icon={faPhone} />
-            <SmallText>0365.xxx.xxx</SmallText>
+            <SmallText>0912.xxx.xxx</SmallText>
           </LinkCustom>
           <LinkCustom to="mailto:khuongduy18022020@gmail.com " isLink={false}>
             <FontAwesomeIcon icon={faEnvelope} />
             <SmallText>khuongduy18022020@gmail.com</SmallText>
+
           </LinkCustom>
         </div>
         <div className="flex items-center gap-6">

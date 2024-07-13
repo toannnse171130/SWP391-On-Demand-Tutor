@@ -1,8 +1,6 @@
 ﻿using AutoMapper;
-using Microsoft.Extensions.Hosting;
 using ODT_System.DTO;
 using ODT_System.Models;
-using System;
 
 namespace ODT_System.Mapper
 {
@@ -22,6 +20,7 @@ namespace ODT_System.Mapper
             CreateMap<User, UserAdminDTO>();
             CreateMap<Chat, ChatDTO>();
             CreateMap<User, UserChatDTO>();
+            CreateMap<Feedback, FeedbackCommonDTO>();
         }
     }
 }
