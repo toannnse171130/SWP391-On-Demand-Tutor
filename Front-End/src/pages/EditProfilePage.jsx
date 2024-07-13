@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { getProfileDetail } from "src/apis/account-module";
-import TutorProfilePageDetail from "src/components/EditProfile/TutorProfilePageDetail";
+import TutorEditProfile from "src/components/EditProfile/TutorEditProfile";
 import Page401 from "src/components/error/Page401";
 import Layout from "src/components/layout/Layout";
 import { LIST_ROLE_KEY } from "src/constants/enumConstants";
 import { useAuthContext } from "src/context/AuthContext";
 
-function ProfilePage() {
+function EditProfilePage() {
   const { roleId } = useAuthContext();
   const [dataProfileDetail, setDataProfileDetail] = useState(undefined);
 
@@ -23,13 +23,22 @@ function ProfilePage() {
   return (
     <Layout className="p-5 bg-[#F6F5FA]">
       {Number(roleId) === LIST_ROLE_KEY.TUTOR && (
-        <TutorProfilePageDetail dataProfileDetail={dataProfileDetail} />
+        <TutorEditProfile
+          dataProfileDetail={dataProfileDetail}
+          setDataProfileDetail={setDataProfileDetail}
+        />
       )}
       {Number(roleId) === LIST_ROLE_KEY.STUDENT && (
-        <TutorProfilePageDetail dataProfileDetail={dataProfileDetail} />
+        <TutorEditProfile
+          dataProfileDetail={dataProfileDetail}
+          setDataProfileDetail={setDataProfileDetail}
+        />
       )}
       {Number(roleId) === LIST_ROLE_KEY.ADMIN && (
-        <TutorProfilePageDetail dataProfileDetail={dataProfileDetail} />
+        <TutorEditProfile
+          dataProfileDetail={dataProfileDetail}
+          setDataProfileDetail={setDataProfileDetail}
+        />
       )}
       {(Number(roleId) === LIST_ROLE_KEY.GUEST || !Number(roleId)) && (
         <Page401 />
@@ -38,4 +47,4 @@ function ProfilePage() {
   );
 }
 
-export default ProfilePage;
+export default EditProfilePage;

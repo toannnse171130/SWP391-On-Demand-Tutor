@@ -23,9 +23,10 @@ function MainHeader() {
             <FontAwesomeIcon icon={faPhone} />
             <SmallText>0912.xxx.xxx</SmallText>
           </LinkCustom>
-          <LinkCustom to="mailto:info@giasuviet.net" isLink={false}>
+          <LinkCustom to="mailto:khuongduy18022020@gmail.com " isLink={false}>
             <FontAwesomeIcon icon={faEnvelope} />
-            <SmallText>info@giasuviet.net</SmallText>
+            <SmallText>khuongduy18022020@gmail.com</SmallText>
+
           </LinkCustom>
         </div>
         <div className="flex items-center gap-6">
