@@ -21,6 +21,8 @@ public partial class User
 
     public int RoleId { get; set; }
 
+    public string Avatar { get; set; } = null!;
+
     public string? Desciption { get; set; }
 
     public bool IsActive { get; set; }
@@ -28,6 +30,10 @@ public partial class User
     public virtual ICollection<Chat> ChatFromNavigations { get; set; } = new List<Chat>();
 
     public virtual ICollection<Chat> ChatToNavigations { get; set; } = new List<Chat>();
+
+    public virtual ICollection<Feedback> FeedbackCreateBies { get; set; } = new List<Feedback>();
+
+    public virtual ICollection<Feedback> FeedbackFeedbeckTos { get; set; } = new List<Feedback>();
 
     public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
 

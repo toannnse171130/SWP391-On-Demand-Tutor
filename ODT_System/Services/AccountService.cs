@@ -142,6 +142,7 @@ namespace ODT_System.Services
             user.Gender = updateProfileDTO.Gender == null ? user.Gender : updateProfileDTO.Gender.Value;
             user.Dob = updateProfileDTO.Dob == null ? user.Dob : updateProfileDTO.Dob.Value;
             user.Desciption = updateProfileDTO.Desciption == null ? user.Desciption : updateProfileDTO.Desciption;
+            user.Avatar = updateProfileDTO.Avatar == null ? user.Avatar : updateProfileDTO.Avatar;
 
             _userRepository.Update(user);
             _userRepository.Save();
@@ -211,7 +212,8 @@ namespace ODT_System.Services
             return true;
         }
 
-        public PaginatedModel<PostTutorDTO> ListPost(string userEmail, int? pageIndex, int? pageSize, string? status, string? textSearch)
+        public PaginatedModel<PostTutorDTO> ListPost(string userEmail, int? pageIndex,
+            int? pageSize, string? status, string? textSearch, string? addressSearch)
         {
             // Find user by email
             var user = _userRepository.FindByEmailIncludeRole(userEmail);
@@ -238,6 +240,12 @@ namespace ODT_System.Services
                                          || EF.Functions.Like(p.Subject, pattern)
                                          || EF.Functions.Like(p.ContactPhone, pattern)
                                          || EF.Functions.Like(p.StudyAddress, pattern));
+            }
+
+            // Filter by address search
+            if (!string.IsNullOrEmpty(addressSearch))
+            {
+                posts = posts.Where(p => p.StudyAddress.Contains(addressSearch));
             }
 
             // Include other properties
