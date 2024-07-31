@@ -1,4 +1,4 @@
-﻿namespace ODT_System
+namespace ODT_System
 {
     public class WeatherForecast
     {

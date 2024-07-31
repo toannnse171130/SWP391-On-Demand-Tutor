@@ -4,6 +4,6 @@ namespace ODT_System.Repository.Interface
 {
     public interface IChatRepository : IBaseRepository<Chat>
     {
-
+       
     }
 }

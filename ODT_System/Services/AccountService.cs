@@ -212,7 +212,7 @@ namespace ODT_System.Services
             return true;
         }
 
-        public PaginatedModel<PostTutorDTO> ListPost(string userEmail, int? pageIndex,
+        public PaginatedModel<PostTutorDTO> ListPost(string userEmail, int? pageIndex, 
             int? pageSize, string? status, string? textSearch, string? addressSearch)
         {
             // Find user by email
@@ -413,7 +413,7 @@ namespace ODT_System.Services
             }
 
             // Get list chat by user id
-            var chatPartners = _chatRepository.GetAll().Where(c => c.From == user.Id || c.To == user.Id)
+            var chatPartners = _chatRepository.GetAll().Where(c=> c.From == user.Id || c.To == user.Id)
                 .Select(c => c.From == user.Id ? c.To : c.From)
                 .Distinct();
 

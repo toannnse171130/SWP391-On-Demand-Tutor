@@ -53,7 +53,7 @@ namespace ODT_System.Services
         public List<FeedbackCommonDTO> GetFeedbacksById(int id)
         {
             var feedbacks = _feedbackRepository.GetAll()
-                .Where(x => x.FeedbeckToId == id
+                .Where(x => x.FeedbeckToId == id 
                         && x.Status == FeedBackStatusEnum.Display.ToString()
                         && x.IsDelete == false)
                 .Include(x => x.CreateBy)

@@ -120,6 +120,9 @@ public partial class OdtsystemContext : DbContext
         {
             entity.ToTable("User");
 
+            entity.Property(e => e.Avatar)
+                .HasDefaultValue("https://w7.pngwing.com/pngs/205/731/png-transparent-default-avatar-thumbnail.png")
+                .HasColumnType("ntext");
             entity.Property(e => e.Desciption).HasColumnType("ntext");
             entity.Property(e => e.Dob).HasColumnName("DOB");
             entity.Property(e => e.Email)

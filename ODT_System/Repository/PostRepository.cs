@@ -17,7 +17,7 @@ namespace ODT_System.Repository
 
         public Post? FindByIdIncludeStudyTimes(int id)
         {
-            return _dbSet.Include(p => p.StudyTimes).FirstOrDefault(p => p.Id == id && p.IsDeleted == false);
+           return _dbSet.Include(p => p.StudyTimes).FirstOrDefault(p => p.Id == id && p.IsDeleted == false);
         }
     }
 }
