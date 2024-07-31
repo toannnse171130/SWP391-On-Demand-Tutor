@@ -44,7 +44,6 @@ namespace ODT_System.Controllers
             var users = _commonService.GetTutors(pageIndex, pageSize, textSearch);
             return Ok(users);
         }
-<<<<<<< HEAD
 
         [HttpGet("tutor-details/{id}")]
         public IActionResult ViewProfile(int id)
@@ -69,7 +68,5 @@ namespace ODT_System.Controllers
 
             return Ok(feedbacks);
         }
-=======
->>>>>>> 7a44f9196a7b21c784ea339b792febda85793e02
     }
 }

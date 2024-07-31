@@ -69,7 +69,7 @@ namespace ODT_System.Controllers
         public IActionResult GetUserDetails(int id)
         {
             var user = _adminService.GetUserDetails(id);
-
+                
             if (user == null)
             {
                 return NotFound();
