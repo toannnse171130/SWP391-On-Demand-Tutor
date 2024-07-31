@@ -1,15 +1,47 @@
+import { useQuery } from "@tanstack/react-query";
+import BigNumber from "bignumber.js";
+import { format } from "date-fns";
 import React, { useState } from "react";
-import FilterDropDown from "src/components/common/FilterDropDown";
+import { Link, useParams } from "react-router-dom";
+import { getTutorPostDetail } from "src/apis/post-module";
+import PrimaryBtn from "src/components/common/PrimaryBtn";
 import PrimaryInput from "src/components/common/PrimaryInput";
 import SmallLine from "src/components/common/SmallLine";
-import SubMenu from "src/components/common/SubMenu";
 import Title from "src/components/common/Title";
+import { PRIVATE_ROUTER } from "src/constants/RouterConstant";
+import {
+  DAYS_OF_WEEK,
+  LIST_GENDER_POST,
+  LIST_TYPE_OF_FEE,
+} from "src/constants/enumConstants";
+import { getValueFromKey } from "src/libs";
 
 function ViewPostDetail() {
-  const [genderSelected, setGenderSelected] = useState(undefined);
+  const [postDetail, setPostDetail] = useState(undefined);
+  const { id } = useParams();
+
+  useQuery({
+    queryKey: ["getPostDetail", id],
+    queryFn: async () => {
+      const response = await getTutorPostDetail(id);
+      setPostDetail(response?.data);
+      return response?.data;
+    },
+    enabled: !!id,
+  });
+
   return (
     <div>
-      <Title>Xem lại bài đăng</Title>
+      <div className="flex flex-col items-center md:flex-row md:justify-between">
+        <Title>Xem lại bài đăng</Title>
+        <PrimaryBtn className="md:!w-[200px] rounded-lg">
+          <Link
+            to={`${PRIVATE_ROUTER.MANAGE_POST}/${postDetail?.id}/chinh-sua`}
+          >
+            Chỉnh sửa
+          </Link>
+        </PrimaryBtn>
+      </div>
       <SmallLine className="my-2" />
       <div className="flex flex-col gap-3 mt-5">
         <PrimaryInput
@@ -20,7 +52,7 @@ function ViewPostDetail() {
           }
           placeholder="Ví dụ: 0912******"
           className="max-w-[400px]"
-          value={"---"}
+          value={postDetail?.contactPhone || "---"}
           readOnly
         />
         <PrimaryInput
@@ -30,7 +62,8 @@ function ViewPostDetail() {
               <span className="text-dangerous">*</span>
             </div>
           }
-          placeholder="Ví dụ: 0912******"
+          value={postDetail?.shortDescription || "---"}
+          readOnly
         />
         <div className="flex items-center gap-5">
           <PrimaryInput
@@ -40,7 +73,8 @@ function ViewPostDetail() {
                 <span className="text-dangerous">*</span>
               </div>
             }
-            placeholder="Ví dụ: 0912******"
+            value={postDetail?.studyAddress || "---"}
+            readOnly
             className="w-[400px]"
           />
           <PrimaryInput
@@ -50,7 +84,8 @@ function ViewPostDetail() {
                 <span className="text-dangerous">*</span>
               </div>
             }
-            placeholder=""
+            value={postDetail?.numberOfStudent || "---"}
+            readOnly
             className="w-[100px]"
           />
           <PrimaryInput
@@ -60,48 +95,53 @@ function ViewPostDetail() {
                 <span className="text-dangerous">*</span>
               </div>
             }
-            placeholder=""
-            className="w-[100px]"
-          />
-          <FilterDropDown
-            title={
-              <div>
-                Giờ mỗi buổi
-                <span className="text-dangerous">*</span>
-              </div>
+            type="date"
+            className="w-[160px]"
+            value={
+              postDetail?.startDate
+                ? format(new Date(postDetail?.startDate), "yyyy-MM-dd")
+                : ""
             }
-            className="!w-[170px]"
-            listDropdown={[1, 2]}
-            showing={undefined}
-            setShowing={undefined}
+            readOnly
           />
+          <div>
+            <div className="mb-2 text-sm font-bold text-black">
+              Giờ mỗi buổi <span className="text-dangerous">*</span>
+            </div>
+            <PrimaryInput
+              className="!w-[170px]"
+              value={postDetail?.studyHour || "---"}
+              readOnly
+            />
+          </div>
         </div>
         <div className="flex items-center gap-5">
-          <FilterDropDown
+          <PrimaryInput
             title={
               <div>
                 Môn học
                 <span className="text-dangerous">*</span>
               </div>
             }
-            className="!w-[400px]"
-            listDropdown={[1, 2]}
-            showing={undefined}
-            setShowing={undefined}
+            className="w-[!400px]"
+            value={postDetail?.subject || "---"}
+            readOnly
           />
           <div>
             <div className="mb-2 text-sm font-bold text-black">
               Giới tính học viên
             </div>
-            <SubMenu
-              activeTab={genderSelected}
-              setActiveTab={setGenderSelected}
-              listMenu={[
-                { id: 1, name: "Nam" },
-                { id: 2, name: "Nữ" },
-                { id: 3, name: "Cả Nam và Nữ" },
-              ]}
-            />
+            <div
+              className={`text-center px-6 text-base py-2 rounded-sm border text-black bg-[#7F7F7F15] capitalize`}
+            >
+              {postDetail?.studentGender
+                ? getValueFromKey(
+                    postDetail?.studentGender,
+                    LIST_GENDER_POST,
+                    "key"
+                  )?.value
+                : "---"}
+            </div>
           </div>
           <PrimaryInput
             title={
@@ -110,37 +150,43 @@ function ViewPostDetail() {
                 <span className="text-dangerous">*</span>
               </div>
             }
-            placeholder="Học phí 1 buổi"
             className="w-[200px]"
+            value={`${new BigNumber(postDetail?.fee || 0).toFormat()} đ`}
+            accessoriesRight={"/buổi"}
+            readOnly
+          />
+          <PrimaryInput
+            title={"Cách trả phí"}
+            className="!w-[170px]"
+            value={
+              postDetail?.typeOfFee
+                ? getValueFromKey(
+                    postDetail?.typeOfFee,
+                    LIST_TYPE_OF_FEE,
+                    "key"
+                  )?.value
+                : "---"
+            }
+            readOnly
           />
         </div>
         <div className="mt-3">
           <div className="mb-2 text-sm font-bold text-black">
             Thời gian có thể học <span className="text-red-500">*</span>
           </div>
-          {/* <div>
-            {listLevels?.length > 0 && (
-              <div className="max-h-[276px] overflow-y-auto my-2">
-                {listLevels.map((i, index) => (
-                  <TableLevelRow
-                    key={`level-row-${index}`}
-                    data={i}
-                    itemIndex={index}
-                    listLevels={listLevels}
-                    setListLevels={setListLevels}
-                  />
-                ))}
+          {postDetail?.studyTimes?.map((item) => (
+            <div className="grid items-end gap-3 mt-3 grid-cols-3530305">
+              <div>Từ {item?.from}</div>
+              <div>Đến {item?.to}</div>
+              <div>
+                Vào{" "}
+                {item?.dayOfWeek
+                  ? getValueFromKey(item?.dayOfWeek, DAYS_OF_WEEK, "value")
+                      ?.label
+                  : "---"}
               </div>
-            )}
-            <AdditionLevelRow
-              handleAddNewLevel={handleAddNewLevel}
-              sessionStart={sessionStart}
-              setSessionStart={setSessionStart}
-              dayOfWeek={dayOfWeek}
-              setDayOfWeek={setDayOfWeek}
-              scheduleNumber={listLevels?.length + 1}
-            />
-          </div> */}
+            </div>
+          ))}
         </div>
       </div>
     </div>

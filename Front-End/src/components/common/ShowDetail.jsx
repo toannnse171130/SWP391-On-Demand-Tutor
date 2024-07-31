@@ -7,7 +7,7 @@ function ShowDetail() {
     <div>
       <ShowPasswordIcon className="hidden cursor-pointer md:block" />
       <SecondaryBtn className="block w-[100px] md:hidden cursor-pointer">
-        Details
+        Chi tiết
       </SecondaryBtn>
     </div>
   );

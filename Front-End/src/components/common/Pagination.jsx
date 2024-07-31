@@ -48,7 +48,7 @@ function Pagination({
       <div className="flex items-center justify-center h-8 px-2 border rounded border-grayLight">
         {startList} -&nbsp;
         {endList > totalItems ? totalItems : endList}
-        &nbsp; of {totalItems}
+        &nbsp; trên {totalItems}
       </div>
     </div>
   );

@@ -1,0 +1,180 @@
+import React, { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import ArrowDownIcon from "../icons/ArrowDownIcon";
+import SearchIcon from "../icons/SearchIcon";
+import { search } from "src/libs/search";
+
+function SearchFilterDropDown({
+  title = null,
+  listDropdown,
+  showing,
+  setShowing,
+  textDefault = "",
+  className = "",
+  required = "",
+  type = "",
+  disabled = false,
+}) {
+  const node = useRef();
+  const [isOpen, toggleOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState("");
+  const listResult = search(searchInput, listDropdown);
+
+  const toggleOpenMenu = () => {
+    if (listDropdown?.length > 0 && !disabled) {
+      toggleOpen(!isOpen);
+    }
+  };
+
+  const handleClickOutside = (e) => {
+    // @ts-ignore
+    if (node.current && node.current?.contains(e.target)) {
+      return;
+    }
+    toggleOpen(false);
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
+  const subMenuAnimate = {
+    enter: {
+      opacity: 1,
+      rotateX: 0,
+      transition: {
+        duration: 0.2,
+      },
+      display: "block",
+    },
+    exit: {
+      opacity: 0,
+      rotateX: -15,
+      transition: {
+        duration: 0.2,
+        delay: 0.05,
+      },
+      transitionEnd: {
+        display: "none",
+      },
+    },
+  };
+
+  return (
+    <motion.div className={`relative text-[#000000] w-full ${className}`}>
+      <div>
+        {title && (
+          <div className="flex gap-1 mb-2">
+            <div className="text-sm font-bold text-black">{title}</div>
+            {required && <p className="text-red-500">{required}</p>}
+          </div>
+        )}
+
+        <div
+          ref={node}
+          onClick={toggleOpenMenu}
+          className={`h-[46px] flex items-center ${
+            disabled ? "bg-readOnly" : "bg-[#fff]"
+          } justify-between gap-2 px-4 py-3 border rounded cursor-pointer border-gray hover:border-primary smooth-transform ${
+            listDropdown === undefined || listDropdown?.length === 0
+              ? "bg-readOnly"
+              : "bg-[#fff]"
+          }`}
+        >
+          <div className="flex items-center gap-1">
+            <p className="text-[#000000]">
+              {showing?.name || showing?.value || textDefault}
+            </p>
+          </div>
+          <ArrowDownIcon color="#373737" />
+        </div>
+      </div>
+
+      <motion.div
+        initial="exit"
+        animate={isOpen ? "enter" : "exit"}
+        variants={subMenuAnimate}
+        className={`absolute right-0 w-full shadow-md`}
+        style={{
+          borderRadius: 5,
+          backgroundColor: "#ECF1F4",
+          transformOrigin: "50% -30px",
+          zIndex: 1,
+        }}
+      >
+        <DropdownSearch
+          onClick={() => toggleOpen(true)}
+          onChange={(e) => {
+            setSearchInput(e.target.value);
+          }}
+          className=""
+          placeholder="Tìm kiếm"
+        />
+        <div
+          id="list-dropdown"
+          className="smooth-transform z-50 flex w-full flex-col gap-1 rounded-b-xl  bg-[#fff] py-3  max-h-[250px] overflow-y-auto"
+        >
+          {listResult?.map((i, index) => (
+            <DropDownItem
+              key={index}
+              data={i}
+              setShowing={setShowing}
+              showing={showing}
+              toggleOpen={toggleOpen}
+            />
+          ))}
+          {listResult?.length === 0 && (
+            <p className="px-5 text-gray">Không có dữ liệu</p>
+          )}
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+export default SearchFilterDropDown;
+
+function DropDownItem({ data, showing, setShowing, toggleOpen }) {
+  const isSelected = showing === data;
+
+  return (
+    <div
+      onClick={() => {
+        setShowing(data);
+        toggleOpen(false);
+      }}
+      className={`flex items-center w-full px-4 py-3 text-sm cursor-pointer bg-opacity-20 hover:bg-[#2F8DE415] smooth-transform ${
+        isSelected ? "bg-[#2F8DE4] text-black" : ""
+      }`}
+    >
+      <p>{data?.name || data?.value}</p>
+      {isSelected && <span className="ml-1">✓</span>}
+    </div>
+  );
+}
+
+function DropdownSearch({ className = "", ...props }) {
+  return (
+    <div
+      className={`relative w-full border border-grayLight rounded-t-sm ${className}`}
+    >
+      <div className="absolute top-3 left-3">
+        <SearchIcon />
+      </div>
+      <input
+        {...props}
+        type="text"
+        className="w-full py-3 pl-10 pr-3 rounded-t-sm outline-none bg-subBg smooth-transform"
+        data-testid="searchInput"
+      />
+    </div>
+  );
+}

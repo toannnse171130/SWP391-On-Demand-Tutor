@@ -1,64 +1,29 @@
-import { useEffect, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 import { toast } from "react-toastify";
-import { uploadImage } from "src/apis/upload-image-module";
-
-const TOAST_UPLOAD_CUSTOM_ID = "toast-upload-custom-id";
 
 function useUploadImage() {
-  const [imageUpload, setImageUpload] = useState();
   const [imageUrlResponse, setImageUrlResponse] = useState("");
+  const [loadingImage, setLoadingImage] = useState(false);
 
-  const handleUploadImage = (event) => {
-    const target = event.target || event.srcElement;
-    if (target.value.length === 0) {
-      console.log("Cancel was hit, no file selected!");
-    } else {
-      setImageUpload(target.files[0]);
-    }
+  const onErrorUpload = (err) => {
+    console.log("Upload image error", err);
+    toast.error("Upload image error");
+    setLoadingImage(false);
   };
 
-  useEffect(() => {
-    if (imageUpload) {
-      const formData = new FormData();
-      formData.append("image", imageUpload);
-      // @ts-ignore
-      uploadImageMutation.mutate(formData);
-    }
-  }, [imageUpload]);
+  const onSuccessUpload = (res) => {
+    console.log("Success", res);
+    setImageUrlResponse(res?.url);
+    setLoadingImage(false);
+  };
 
-  const uploadImageMutation = useMutation(
-    async (imageUpload) => {
-      return await uploadImage(imageUpload);
-    },
-    {
-      onSuccess: (data) => {
-        if (data?.status >= 200 && data?.status < 300) {
-          setImageUrlResponse(data?.data);
-          toast.success("Upload image successfully");
-        } else {
-          console.log("Error: ", data);
-          toast.error(data?.response?.data || "Upload image error");
-        }
-      },
-      onError: (err) => {
-        // @ts-ignore
-        toast.error(err?.response?.data?.message || err?.message);
-      },
-    }
-  );
-
-  useEffect(() => {
-    if (uploadImageMutation.isLoading) {
-      toast.loading("Loading...", {
-        toastId: TOAST_UPLOAD_CUSTOM_ID,
-      });
-    } else {
-      toast.dismiss(TOAST_UPLOAD_CUSTOM_ID);
-    }
-  }, [uploadImageMutation.isLoading]);
-
-  return { imageUrlResponse, handleUploadImage, imageUpload };
+  return {
+    imageUrlResponse,
+    onSuccessUpload,
+    onErrorUpload,
+    loadingImage,
+    setLoadingImage,
+  };
 }
 
 export default useUploadImage;

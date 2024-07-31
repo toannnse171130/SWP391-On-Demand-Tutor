@@ -26,6 +26,8 @@ import { createNewPostDetail } from "src/apis/post-module";
 import { useNavigate } from "react-router-dom";
 import { PRIVATE_ROUTER } from "src/constants/RouterConstant";
 import { combineStrings } from "src/libs";
+import { LIST_REGION } from "src/constants/constants";
+import SearchFilterDropDown from "src/components/common/SearchFilterDropDown";
 
 const TOAST_PROGRESSING = "TOAST_PROGRESS_ID";
 
@@ -38,8 +40,8 @@ function CreatePostPage() {
   const [dayOfWeek, setDayOfWeek] = useState(undefined);
   const [hoursPerSection, setHoursPerSection] = useState(null);
   const [typeOfFee, setTypeOfFee] = useState(null);
+  const [regionSelected, setRegionSelected] = useState(undefined);
   const navigate = useNavigate();
-  console.log("genderSelected: ", genderSelected);
   const handleAddNewLevel = () => {
     if (!hoursPerSection) {
       toast.error("Hãy chọn số giờ cho mỗi buổi học trước khi lên lịch học");
@@ -102,11 +104,16 @@ function CreatePostPage() {
       toast.error("Hãy chọn cách thức đóng học phí");
       return;
     }
+    if (!regionSelected) {
+      toast.error("Hãy chọn địa điểm dạy");
+      return;
+    }
     const submitData = {
       ...newPostDetail,
       studyHour: hoursPerSection?.value,
       typeOfFee: typeOfFee?.key,
       studyTimes: listLevels,
+      studyAddress: regionSelected?.value,
     };
     if (genderSelected) {
       submitData["studentGender"] = genderSelected?.key;
@@ -159,22 +166,18 @@ function CreatePostPage() {
               value={newPostDetail?.shortDescription || ""}
             />
             <div className="flex items-center gap-5">
-              <PrimaryInput
+              <SearchFilterDropDown
                 title={
                   <div>
                     Địa điểm dạy
                     <span className="text-dangerous">*</span>
                   </div>
                 }
-                placeholder="Ví dụ: Google Meet"
-                className="w-[400px]"
-                onChange={(e) => {
-                  setNewPostDetail({
-                    ...newPostDetail,
-                    studyAddress: e.target.value,
-                  });
-                }}
-                value={newPostDetail?.studyAddress || ""}
+                textDefault="Chọn địa điểm dạy"
+                listDropdown={LIST_REGION}
+                showing={regionSelected}
+                setShowing={setRegionSelected}
+                className="!w-[400px]"
               />
               <PrimaryInput
                 title={

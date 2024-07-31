@@ -7,10 +7,12 @@ import {
   faPhone,
   faUser,
   faUserPlus,
+  faComments,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAuthContext } from "src/context/AuthContext";
 import { logOut } from "src/libs/handleLogout";
 import { useNavigate } from "react-router-dom";
+import { PRIVATE_ROUTER, PUBLIC_ROUTER } from "src/constants/RouterConstant";
 
 function MainHeader() {
   const navigate = useNavigate();
@@ -23,27 +25,30 @@ function MainHeader() {
             <FontAwesomeIcon icon={faPhone} />
             <SmallText>0912.xxx.xxx</SmallText>
           </LinkCustom>
-          <LinkCustom to="mailto:khuongduy18022020@gmail.com " isLink={false}>
+          <LinkCustom to="mailto:info@giasuviet.net" isLink={false}>
             <FontAwesomeIcon icon={faEnvelope} />
-            <SmallText>khuongduy18022020@gmail.com</SmallText>
-
+            <SmallText>info@giasuviet.net</SmallText>
           </LinkCustom>
         </div>
         <div className="flex items-center gap-6">
           {!fullName ? (
             <>
-              <LinkCustom to="/dang-nhap">
+              <LinkCustom to={PUBLIC_ROUTER.LOGIN}>
                 <FontAwesomeIcon icon={faUser} />
                 <SmallText>Đăng nhập</SmallText>
               </LinkCustom>
-              <LinkCustom to="/dang-ky">
+              <LinkCustom to={PUBLIC_ROUTER.REGISTER}>
                 <FontAwesomeIcon icon={faUserPlus} />
                 <SmallText>Đăng ký</SmallText>
               </LinkCustom>
             </>
           ) : (
             <>
-              <LinkCustom to="/thong-tin-ca-nhan">
+              <LinkCustom className="relative" to={PRIVATE_ROUTER.CHAT_BOX}>
+                <FontAwesomeIcon icon={faComments} />
+                <div className="absolute top-[-4px] right-[-4px] w-[10px] h-[10px] bg-red-600 rounded-full" />
+              </LinkCustom>
+              <LinkCustom to={PRIVATE_ROUTER.PROFILE}>
                 <FontAwesomeIcon icon={faUser} />
                 <SmallText>Trang cá nhân</SmallText>
               </LinkCustom>

@@ -12,7 +12,7 @@
 }
 
 .table-style table thead {
-  background: #2f8de415;
+  background: #43b14b15;
 }
 
 .table-style table thead tr:first-child {
@@ -47,7 +47,7 @@
 }
 
 .table-style table tbody tr:hover td {
-  background-color: #2f8de415;
+  background-color: #43b14b15;
   transition: all 0.2s ease;
 }
 

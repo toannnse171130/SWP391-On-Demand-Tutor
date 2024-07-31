@@ -3,6 +3,6 @@ export function search(searchInput, list = []) {
     return list;
   }
   return list.filter((item) =>
-    item?.name.toLowerCase().includes(searchInput.toLowerCase())
+    item?.value.toLowerCase().includes(searchInput.toLowerCase())
   );
 }

@@ -1,20 +1,28 @@
 import React from "react";
 import CameraIcon from "../icons/CameraIcon";
 import Loading from "./Loading";
+import { IKUpload } from "imagekitio-react";
 
 function UploadImage({
   imageUrlResponse,
   className = "input-img",
   loadingImage = false,
-  onChange = null,
+  setLoadingImage = null,
   classNameImage = "",
+  onSuccess,
+  onError,
 }) {
   return (
     <label
       // htmlFor="input-file"
       className={`cursor-pointer ${className}`}
     >
-      <input onChange={onChange} type="file" accept="image/*" />
+      {/* <input onChange={onChange} type="file" accept="image/*" /> */}
+      <IKUpload
+        onChange={() => [setLoadingImage(true)]}
+        onError={onError}
+        onSuccess={onSuccess}
+      />
       {loadingImage ? (
         <div className="w-full min-h-[176px] flex items-center justify-center">
           <Loading />

@@ -4,6 +4,7 @@ import "./styles/globals.css";
 import "./styles/table.css";
 import "./styles/loading.css";
 import "./styles/add-image.css";
+import "@reach/dialog/styles.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "react-toastify/dist/ReactToastify.css";

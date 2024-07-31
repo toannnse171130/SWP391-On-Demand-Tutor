@@ -23,6 +23,7 @@ import {
   faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
+import { PUBLIC_ROUTER } from "src/constants/RouterConstant";
 
 const LIST_ITEM_SEPARATE_PAGE_1 = [
   {
@@ -145,13 +146,10 @@ function HomePageContent() {
               HÃY <span className="text-primary">TÌM GIA SƯ GIỎI</span> NGAY!
             </div>
             <div className="flex items-stretch justify-center w-full mt-6">
-              <PrimaryInput
-                placeholder="Hãy nhập một môn học!"
-                classNameInput="rounded-l-[24px] rounded-r-[0px] h-[46px]"
-                className="w-[260px]"
-              />
-              <PrimaryBtn className="!w-[160px] h-[46px] rounded-l-[0px] rounded-r-[24px]">
-                Tìm gia sư ngay
+              <PrimaryBtn className="!w-fit h-[46px] rounded-[24px]">
+                <Link to={PUBLIC_ROUTER.TUTOR}>
+                  Khám phá đội ngũ gia sư uy tín
+                </Link>
               </PrimaryBtn>
             </div>
             <div className="mt-4 text-lg text-yellow">
@@ -159,8 +157,10 @@ function HomePageContent() {
               <span className="text-2xl text-white">0111111111</span> cô Mượt
             </div>
             <div className="mt-6">
-              <PrimaryBtn className="px-8 bg-[#f0ad4e] border-[#f0ad4e] hover:bg-[#a98149]">
-                Tham gia vào đội ngũ Gia Sư !!!
+              <PrimaryBtn className="px-8 !bg-[#f0ad4e] !border-[#f0ad4e] hover:!bg-[#a98149] active:!bg-[#a98149]">
+                <Link to={PUBLIC_ROUTER.REGISTER}>
+                  Tham gia vào đội ngũ Gia Sư !!!
+                </Link>
               </PrimaryBtn>
             </div>
           </div>

@@ -7,48 +7,38 @@ import React, {
 } from "react";
 
 const AuthContext = createContext({
-  roleKey: "",
-  checkRoleKey: () => null,
+  roleId: "",
   userId: "",
-  checkUserId: () => null,
   fullName: "",
-  userAvatar: "",
+  checkUserId: () => null,
 });
 
 function AuthProvider({ children }) {
-  const [roleKey, setRoleKey] = useState("");
+  const [roleId, setRoleId] = useState("");
   const [userId, setUserId] = useState("");
   const [fullName, setFullName] = useState("");
-  const [userAvatar, setUserAvatar] = useState("");
 
-  const checkRoleKey = () => {
-    const roleKey = localStorage?.getItem("roleKey");
-    setRoleKey(roleKey);
-  };
   const checkUserId = () => {
     const userId = localStorage?.getItem("userId");
     const fullName = localStorage?.getItem("fullName");
-    const userAvatar = localStorage?.getItem("userAvatar");
-    setUserAvatar(userAvatar);
+    const roleId = localStorage?.getItem("roleId");
+    setRoleId(roleId);
     setFullName(fullName);
     setUserId(userId);
   };
 
   useEffect(() => {
-    checkRoleKey();
     checkUserId();
   }, []);
 
   const contextValue = useMemo(
     () => ({
-      roleKey,
-      checkRoleKey,
+      roleId,
       userId,
-      checkUserId,
       fullName,
-      userAvatar,
+      checkUserId,
     }),
-    [roleKey, userId, fullName, userAvatar]
+    [roleId, userId, fullName]
   );
 
   return (
